@@ -37,11 +37,9 @@ $list_mobil = $result->fetch_all(MYSQLI_ASSOC);
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/style.css?v=<?= time(); ?>" rel="stylesheet">
-    <!-- javascript -->
-    <script src="js/scripts.js"></script>
-</head>
-<body>
+    <link href="css/final.css?v=<?= time(); ?>" rel="stylesheet">
+  </head>
+  <body>
     <!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
   <div class="container">
@@ -72,7 +70,7 @@ $list_mobil = $result->fetch_all(MYSQLI_ASSOC);
           </li>
         </ul>
         <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-3">
-    <?php if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'user'): ?>
+          <?php if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'user'): ?>
         <!-- Jika pengguna sudah login -->
         <span class="text-black">Halo, <?= htmlspecialchars($_SESSION['name'] ?? 'Pengguna'); ?></span>
         <a href="profil/profile.php" class="text-black">Profil</a> <!-- Tombol Profil -->
@@ -99,7 +97,7 @@ $list_mobil = $result->fetch_all(MYSQLI_ASSOC);
 
         <!-- Tombol Filter -->
         <div class="d-flex justify-content-center mb-4">
-            <div class="btn-group" role="group">
+          <div class="btn-group" role="group">
                 <a href="?tipe=Semua" class="btn btn-outline-primary <?= $filter === 'Semua' ? 'active' : '' ?>">Semua</a>
                 <a href="?tipe=Biasa" class="btn btn-outline-primary <?= $filter === 'Biasa' ? 'active' : '' ?>">Biasa</a>
                 <a href="?tipe=Premium" class="btn btn-outline-primary <?= $filter === 'Premium' ? 'active' : '' ?>">Premium</a>
@@ -109,25 +107,27 @@ $list_mobil = $result->fetch_all(MYSQLI_ASSOC);
 
         <!-- Card List -->
         <div class="row">
-            <?php if (!empty($list_mobil)): ?>
-                <?php foreach ($list_mobil as $mobil): ?>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="Foto/<?= $mobil['gambar']; ?>" class="card-img-top" alt="<?= $mobil['nama']; ?>">
-                            <div class="card-body text-center">
-                                <h5 class="card-title"><?= $mobil['nama']; ?></h5>
-                                <p class="card-text"><?= $mobil['tipe']; ?></p>
-                                <p class="card-text">Rp <?= number_format($mobil['harga'], 0, ',', '.'); ?></p>
-                                <a href="Booking/Pendaftaran.php?id=<?= $mobil['id']; ?>" class="btn btn-primary">Pesan Sekarang</a>
-                            </div>
-                        </div>
+    <?php if (!empty($list_mobil)): ?>
+        <?php foreach ($list_mobil as $mobil): ?>
+            <div class="col-md-4 mb-4">
+                <!-- Menambahkan event onclick untuk mengarah ke halaman booking tanpa popup -->
+                <div class="card" id="card-<?= $mobil['id']; ?>" onclick="window.location.href='booking/Pendaftaran.php?id=<?= $mobil['id']; ?>'">
+                    <img src="Foto/<?= $mobil['gambar']; ?>" class="card-img-top" alt="<?= $mobil['nama']; ?>">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><?= $mobil['nama']; ?></h5>
+                        <p class="card-text"><?= $mobil['tipe']; ?></p>
+                        <p class="card-text">Rp <?= number_format($mobil['harga'], 0, ',', '.'); ?></p>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p class="text-center">Tidak ada mobil dengan tipe <?= $filter; ?>.</p>
-            <?php endif; ?>
-        </div>
-    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p class="text-center">Tidak ada mobil dengan tipe <?= $filter; ?>.</p>
+    <?php endif; ?>
+</div>
+
+
+
 
 <!-- persyaratan -->
 <div class="container mt-5">
@@ -206,7 +206,7 @@ $list_mobil = $result->fetch_all(MYSQLI_ASSOC);
     <div class="container text-center">
         <div class="mb-3">
             <a href="https://wa.me/6287730041815" class="text-white me-4" target="_blank" aria-label="WhatsApp">
-                <i class="fab fa-whatsapp fs-4"></i>
+              <i class="fab fa-whatsapp fs-4"></i>
             </a>
             <a href="https://instagram.com/zahrarentalkarawang" class="text-white me-4" target="_blank" aria-label="Instagram">
                 <i class="fab fa-instagram fs-4"></i>
@@ -218,5 +218,10 @@ $list_mobil = $result->fetch_all(MYSQLI_ASSOC);
         <p class="mb-0"> &copy; 2024 Zahrarental | All rights reserved</p>
     </div>
 </footer>
+
+
+
+<!-- javascript -->
+<script src="Js/final.js"></script>
 </body>
 </html>
